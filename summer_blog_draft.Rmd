@@ -19,6 +19,12 @@ library(RColorBrewer)
 library(patchwork)
 ```
 
+
+As Juliet and I reflected on the first quarter of our Master of Environmental Data Science degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer experience!
+
+As such, we developed a survey (in Google forms) to send to our classmates and gather data about their perspectives on these first six weeks. We considered a few fun data visualizations that might show what MEDS students thought of our first five courses, and the things we’ve been up to outside of class. The following is a description of how we visualize the data submitted by our peers, and some neat graphics describing our MEDS summer, from tidying data to surfing after class. We hope you find it insightful, but also fun :) 
+
+
 ```{r}
 data <- read_csv(here("data", "MEDS Summer Reflection Survey (Responses) - Responses Clean.csv"))
 ```
@@ -69,13 +75,25 @@ Then to observe the frequency of words used to describe each course, we used the
 
 course_1 <- data.frame(table(data_clean_1$"1"))
 
+course_1_df <- as.data.frame.matrix(course_1)
+
 course_2 <- data.frame(table(data_clean_2$"2"))
+
+course_2_df <- as.data.frame.matrix(course_2)
 
 course_3_4 <- data.frame(table(data_clean_3_4$"3_4"))
 
+course_3_4_df <- as.data.frame.matrix(course_3_4)
+
 course_5 <- data.frame(table(data_clean_5$"5"))
 
+course_5_df <- as.data.frame.matrix(course_5) %>% 
+  filter(!Var1 == "tangent") %>% 
+  filter(!Var1 == "tangents")
+
 course_6 <- data.frame(table(data_clean_6$"6"))
+
+course_6_df <- as.data.frame.matrix(course_6)
 ```
 
 After this, we wanted to map the frequency of words for each class. We used wordclouds, which required the package `wordcloud.` Using the function `wordcloud` we could specify the minimum and maximum word frequencies we wanted to use for each class. We specify 1 as the minimum frequency to use in each word cloud and specify no maximum frequency. The wordclouds generated show every word students used to describe the class represented by the dataframe with a size proportional to the frequency of the word. 
@@ -84,16 +102,17 @@ After this, we wanted to map the frequency of words for each class. We used word
 ```{r}
 # make the clouds as separate graphs
 
-cloud_1 <- wordcloud(course_1$Var1, course_1$Freq, min.freq = 1)
+cloud_1 <- wordcloud(course_1_df$Var1, course_1$Freq, min.freq = 1)
 
-cloud_2 <- wordcloud(course_2$Var1, course_2$Freq, min.freq = 1)
+cloud_2 <- wordcloud(course_2_df$Var1, course_2$Freq, min.freq = 1)
 
-could_3_4 <- wordcloud(course_3_4$Var1, course_3_4$Freq, min.freq = 1)
+could_3_4 <- wordcloud(course_3_4_df$Var1, course_3_4$Freq, min.freq = 1)
 
-cloud_5 <- wordcloud(course_5$Var1, course_5$Freq, min.freq = 1) %>% 
-  filter("5" !== )
+cloud_5 <- wordcloud(course_5_df$Var1, course_5$Freq, min.freq = 1)
 
-cloud_6 <- wordcloud(course_6$Var1, course_6$Freq, min.freq = 1)
+class(course_5_df$Var1)
+
+cloud_6 <- wordcloud(course_6_df$Var1, course_6$Freq, min.freq = 1)
 ```
 
 ```{r}
