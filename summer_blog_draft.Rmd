@@ -1,0 +1,104 @@
+---
+title: "summer_blog_data_viz"
+author: "Juliet"
+date: "9/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(janitor)
+library(here)
+library(wordcloud)
+library(RColorBrewer)
+library(patchwork)
+```
+
+```{r}
+data <- read_csv(here("data", "MEDS Summer Reflection Survey (Responses) - Responses Clean.csv"))
+```
+
+```{r}
+#colnames(data)
+data_clean <- data %>% 
+  rename("1" =  "Write 3 words to describe or represent week 1 (EDS212 w/ Allison) here:") %>% 
+  rename("2" =  "Write 3 words to describe or represent weeks 2 & 3 (EDS221 w/ Allison) here:") %>% 
+  rename("3_4" =  "Write 3 words to describe or represent week 4 (EDS214 w/ Julien) here:") %>% 
+  rename("5" =  "Write 3 words to describe or represent week 5 (EDS215 w/ Frew) here:") %>% 
+  rename("6" =  "Write 3 words to describe or represent week 1 (EDS216 w/ Scott) here:")
+```
+
+To visualize how often certain descriptors for each summer course appears, we first needed to separate the three terms submitted for each course into separate observations. We executed this using the `separate_rows()` function. This expanded the terms into three separate observations per student in each class column. 
+
+```{r}
+# separate the columns into rows by parsing the 3 words in each observation into 3 different observations
+# select certain cols because our first data viz is only using certain cols 
+data_clean_1 <- data_clean %>% 
+  separate_rows("1") %>% 
+  select("Email Address","1")
+
+data_clean_2 <- data_clean %>% 
+  separate_rows("2")%>% 
+  select("Email Address","2")
+
+data_clean_3_4 <- data_clean %>% 
+  separate_rows("3_4") %>% 
+  select("Email Address","3_4")
+
+data_clean_5 <- data_clean %>% 
+  separate_rows("5") %>% 
+  select("Email Address","5")
+
+data_clean_6 <- data_clean %>% 
+  separate_rows("6") %>% 
+  select("Email Address","6")
+
+
+```
+
+Then to observe the frequency of words used to describe each course, we used the `table` function to create a table that has two columns, for each word students used and the frequency with which the words occur in that class column. Then, we converted that table to a dataframe. 
+
+
+```{r}
+# use the table() function to take counts of each "factor" (words) and use the data.frame() function to convert these tables to data frames
+
+course_1 <- data.frame(table(data_clean_1$"1"))
+
+course_2 <- data.frame(table(data_clean_2$"2"))
+
+course_3_4 <- data.frame(table(data_clean_3_4$"3_4"))
+
+course_5 <- data.frame(table(data_clean_5$"5"))
+
+course_6 <- data.frame(table(data_clean_6$"6"))
+```
+
+After this, we wanted to map the frequency of words for each class. We used wordclouds, which required the package `wordcloud.` Using the function `wordcloud` we could specify the minimum and maximum word frequencies we wanted to use for each class. We specify 1 as the minimum frequency to use in each word cloud and specify no maximum frequency. The wordclouds generated show every word students used to describe the class represented by the dataframe with a size proportional to the frequency of the word. 
+
+
+```{r}
+# make the clouds as separate graphs
+
+cloud_1 <- wordcloud(course_1$Var1, course_1$Freq, min.freq = 1)
+
+cloud_2 <- wordcloud(course_2$Var1, course_2$Freq, min.freq = 1)
+
+could_3_4 <- wordcloud(course_3_4$Var1, course_3_4$Freq, min.freq = 1)
+
+cloud_5 <- wordcloud(course_5$Var1, course_5$Freq, min.freq = 1) %>% 
+  filter("5" !== )
+
+cloud_6 <- wordcloud(course_6$Var1, course_6$Freq, min.freq = 1)
+```
+
+```{r}
+
+```
+
+
+
