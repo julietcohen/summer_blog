@@ -1,14 +1,16 @@
 ---
 title: "A Summer-y Summary of MEDS Quarter 1"
 author: "Juliet Cohen and Scout Leonard"
-date: "9/22/2021"
 output: 
   html_document:
     theme: flatly
+    toc: true 
+    toc_float: true
+    code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE, collapse = TRUE, class.source = 'fold-hide'}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ```{r, results=FALSE, message = FALSE, warning = FALSE}
@@ -20,12 +22,27 @@ library(wordcloud)
 library(RColorBrewer)
 library(patchwork)
 library(ggwordcloud)
+library(paletteer)
 
 # figure out how to hide the text output and keep the code, ideally allowing the reader to open and close the code in the knitted document through some variation of: include = FALSE, collapse = TRUE, class.source = 'fold-hide', results = 'hide'
 ```
 
+Hi there! This post is coming to you from Juliet Cohen and Scout Leonard! We are both students at UCSB’s Bren School of Environmental Science & Management in the inaugural cohort of the Masters of Environmental Data Science (MEDS) Program. 
 
-It's been a week since we finished our six week, five class, jam-packed, *inaugural* summer intensive quarter of UCSB's Bren School of Environmental Science & Management Master's of Environmental Data Science. We spent the week partly relaxing after weeks of coding boot camp and partly developing this blog to prove that we learned quite a bit :) 
+Scout is interested in growing as an environmental data scientist after having worked with large datasets through food system and food security work in Oakland, California. Already, she is so pleased with the emphasis her MEDS courses have placed on *responsible* data science, as she hopes to use her MEDS toolkit to analyze data to influence food security and resource use policy that builds sustainable, equitable food systems. You can learn more about her previous and ongoing work at her website: scoutcleonard.github.io. 
+
+Juliet is interested in applying environmental data science to wildlife biology and the interaction between humans and endangered species’ natural habitats. Juliet was inspired by her experience serving as a field technician in California and Hawaii. Throughout the MEDS summer curriculum, Juliet strengthened her collaborative programming skills and looks forward to learning about spatial analysis and modelling large, dynamic datasets. She hopes to contribute to open-source projects in the future.
+
+For the first 6 weeks of our degree, we embarked on a whirlwind on introductory data science. From 9 AM to 5 PM we sat in the newly constructed MEDS classroom at the National Center for Ecological Analysis and Synthesis (NCEAS) in downtown Santa Barbara, learning the basics we needed to jumpstart our data science degrees. These week to two-week classes consisted not only of lectures, but of coding labs, collaborative team science projects, and individual and group presentations. We also had “flex sessions” for non-course content, like panels from various data scientists at NCEAS and representatives from local groups of R users, such as Santa Barbara R Ladies and Eco Data Science. Our summer term laid the foundation not only for the codes we’ll write this year, but also for how we create workflows and collaborate as growing scientists. These courses included: 
+
+- EDS 212: Essential Math in Environmental Data Science
+- EDS 221: Scientific Programming Essentials
+- EDS 214: Analytical Workflows and Scientific Reproducibility
+- EDS 215: Introduction to Data Storage and Management
+- EDS 216: Meta-Analysis and Systematic Reviews
+
+After this intense MEDS summer, Juliet and Scout took some time to relax before fall quarter, but we also took this blog-post-writing opportunity to showcase some of what our class has learned so far. 
+
 
 As we reflected on the first quarter of our degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer.
 
@@ -140,47 +157,96 @@ The code chunk below is where we tried the `wordcloud` package. It made the corr
 
 
 And finally, the ggplot word clouds! 
-```{r, warning=FALSE}
+```{r, warning=FALSE, fig.show = 'hide'}
+
+# for each cloud, specify the background color within the theme to match the background color of the blog
+
 cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 13) +
-  theme(plot.title = element_text(size = 17)) +
+  scale_size_area(max_size = 25) +
+  theme(plot.title = element_text(size = 25),
+        panel.background = element_rect(fill = "white")) +
   labs(title = "Week 1 EDS 212: Essential Math in Environmental Data Science")
 
 cloud_1
 
 cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 10) +
-  theme(plot.title = element_text(size = 17)) +
+  scale_size_area(max_size = 25) +
+  theme(plot.title = element_text(size = 25),
+        panel.background = element_rect(fill = "white")) +
   labs(title = "Weeks 2 & 3 EDS 221: Scientific Programming Essentials")
 
 cloud_2_3
 
 cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 13) +
-  theme(plot.title = element_text(size = 17)) +
+  scale_size_area(max_size = 25) +
+  theme(plot.title = element_text(size = 25),
+        panel.background = element_rect(fill = "white")) +
   labs(title = "Week 4 EDS 214: Analytical Workflows and Scientific Reproducibility")
 
 cloud_4
 
 cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 13) +
-  theme(plot.title = element_text(size = 17)) +
+  scale_size_area(max_size = 25) +
+  theme(plot.title = element_text(size = 25),
+        panel.background = element_rect(fill = "white")) +
   labs(title = "Week 5 EDS 215: Introduction to Data Storage and Management")
 
 cloud_5
 
 cloud_6 <- ggplot(course_6_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 13) +
-  theme(plot.title = element_text(size = 17)) +
+  scale_size_area(max_size = 25) +
+  theme(plot.title = element_text(size = 25),
+        panel.background = element_rect(fill = "white")) +
   labs(title = "Week 6 EDS 216: Meta-Analysis and Systematic Reviews")
 
 cloud_6
+
 ```
 
+```{r, fig.width = 15, fig.height = 34}
+# use patchwork to stack the graphs
 
+ cloud_1 / cloud_2_3 / cloud_4 / cloud_5 / cloud_6
+```
+
+```{r, fig.alt="Histogram representing the MEDS students' favorite activities in Santa Barbara. The most popular activities are surfing, going to the beach, and biking."}
+# download cvs for SB activities
+data_activities <- read_csv(here("data", "sb_activities_data.csv"))
+
+# make data.frame for SB activities histogram
+
+
+activities_clean <- data.frame(table(data_activities$"sb_activities"))
+
+#SB_activities <- ggplot(activities_clean, aes(x = Var1, y = Freq)) +
+#  geom_bar() +
+#  coord_flip() +
+#  labs(title = "MEDS Favorite Santa Barbara Activities",
+#       y = "Activity")
+
+SB_activities <- ggplot(activities_clean, aes(y = reorder(Var1, +Freq), x = Freq)) +
+  geom_histogram(stat = 'identity', aes(fill = Var1, color = "blue")) +
+  scale_fill_paletteer_d("dutchmasters::milkmaid") +
+  theme(legend.position = "none",
+        panel.grid = element_blank(),
+        panel.background = element_rect(fill = "white")) +
+  labs(title = "MEDS Favorite Santa Barbara Activities",
+       y = "Activity",
+       x = "Total Votes")
+
+SB_activities
+
+#panel.grid = element_blank()
+```
+
+![**The MEDS 2022 cohort gathered at NCEAS downtown after class during summer session.**](pics/pic_1_NCEAS.jpg)
+**The MEDS 2022 cohort gathered at NCEAS downtown after class during summer session.**
+
+![**Members of the MEDS cohort in downtown Santa Barbara celebrating completing the first half of summer session classes with faculty and their pets.**](pics/pic_2_downtown.jpg)
+**Members of the MEDS cohort in downtown Santa Barbara celebrating completing the first half of summer session classes with faculty and their pets.**
 
