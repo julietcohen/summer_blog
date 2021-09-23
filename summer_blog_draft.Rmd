@@ -25,7 +25,7 @@ library(ggwordcloud)
 ```
 
 
-It's been a week since we finished our six week, five class, jam-packed, *inaugural* summer intensive quarter of UCSB's Bren School of Environmental Science & Management Master's of Environmental Data Science. We spent the week partly relaxing, and partly developing this blog to proved that we learned quite a bit :) 
+It's been a week since we finished our six week, five class, jam-packed, *inaugural* summer intensive quarter of UCSB's Bren School of Environmental Science & Management Master's of Environmental Data Science. We spent the week partly relaxing after weeks of coding boot camp and partly developing this blog to prove that we learned quite a bit :) 
 
 As we reflected on the first quarter of our degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer.
 
