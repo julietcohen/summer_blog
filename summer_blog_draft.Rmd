@@ -23,17 +23,25 @@ library(ggwordcloud)
 ```
 
 
-As Juliet and I reflected on the first quarter of our Master of Environmental Data Science degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer experience!
+It's been a week since we finished our six week, five class, jam-packed, *inaugural* summer intensive quarter of UCSB's Bren School of Environmental Science & Management Master's of Environmental Data Science. We spent the week partly relaxing, and partly developing this blog to proved that we learned quite a bit :) 
 
-As such, we developed a survey (in Google forms) to send to our classmates and gather data about their perspectives on these first six weeks. We considered a few fun data visualizations that might show what MEDS students thought of our first five courses, and the things we’ve been up to outside of class. The following is a description of how we visualize the data submitted by our peers, and some neat graphics describing our MEDS summer, from tidying data to surfing after class. We hope you find it insightful, but also fun :) 
+As we reflected on the first quarter of our degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer.
 
+As such, we developed a survey (in Google forms) to send to our classmates and gather data about their perspectives on these first six weeks. We wondered about two main questions: 1.) what did the cohort think of our classes? and 2.) what kinds of fun things has the group been up to in our delightful home of Santa Barbara?
 
+We developed a Google form for our peers to give feedback about these wondering. Our questions were developed with data tidying and visualization in mind, and when we got some unexpected answers, we developed perspective about how our survey could have been better to help us with a bit less wrangling. MEDS students, however, do not shy away from problematic data, so we persisted with the problems that arose :)
+
+The following is a description of how we visualizes the most interesting survey data submitted by our peers, including neat graphics describing our MEDS summer, from tidying data to surfing after class. We hope you find it insightful, but also fun :) 
+
+First, we read the data from our Google form survey, which we were able to download as a .csv file, into the R project we made for this blog project. 
 ```{r}
 data <- read_csv(here("data", "MEDS Summer Reflection Survey (Responses) - Responses Clean.csv"))
 ```
 
+Next, we renamed the columns. Google forms does this frustrating, but understandable thing where the names of the columns of data are the questions we asked participants. This makes for super long names that are not fun to write code with. We instead named the columns of interest with the corresponding order of our coursework, i.e. column 1 is our first course, EDS 212. 
+
 ```{r}
-#colnames(data)
+#colnames(data) renames the columns
 data_clean <- data %>% 
   rename("1" =  "Write 3 words to describe or represent week 1 (EDS212 w/ Allison) here:") %>% 
   rename("2_3" =  "Write 3 words to describe or represent weeks 2 & 3 (EDS221 w/ Allison) here:") %>% 
@@ -42,7 +50,9 @@ data_clean <- data %>%
   rename("6" =  "Write 3 words to describe or represent week 1 (EDS216 w/ Scott) here:")
 ```
 
-To visualize how often certain descriptors for each summer course appears, we first needed to separate the three terms submitted for each course into separate observations. We executed this using the `separate_rows()` function. This expanded the terms into three separate observations per student in each class column. 
+The Google form format included five questions (one for each summer course) where students wrote in three words to describe how they felt about the course. In the .csv of the survey data, the three words submitted by a participant were grouped together in one cell per course. 
+
+To visualize how often certain descriptors for each summer course appear, we first needed to separate the three terms submitted for each course into separate observations. We executed this using the `separate_rows()` function. This expanded the terms into three separate observations per student in each class column. 
 
 ```{r}
 # separate the columns into rows by parsing the 3 words in each observation into 3 different observations
@@ -70,8 +80,7 @@ data_clean_6 <- data_clean %>%
 
 ```
 
-Then to observe the frequency of words used to describe each course, we used the `table` function to create a table that has two columns, for each word students used and the frequency with which the words occur in that class column. Then, we converted that table to a dataframe. 
-
+Then, to observe the frequency of words used to describe each course, we used the `table` function. This creates a table that has two columns: one for each distint descriptive word students used and the frequency with which the words occur for the class. Then, we converted that table to a data frame. 
 
 ```{r}
 # use the table() function to take counts of each "factor" (words) and use the data.frame() function to convert these tables to data frames
@@ -80,7 +89,7 @@ course_1 <- data.frame(table(data_clean_1$"1"))
 
 course_1_df <- as.data.frame.matrix(course_1)
 
-course_2_3 <- data.frame(table(data_clean_2_3$"2"))
+course_2_3 <- data.frame(table(data_clean_2_3$"2_3"))
 
 course_2_3_df <- as.data.frame.matrix(course_2_3)
 
@@ -100,9 +109,11 @@ course_6 <- data.frame(table(data_clean_6$"6"))
 course_6_df <- as.data.frame.matrix(course_6)
 ```
 
-After this, we wanted to map the frequency of words for each class. We used ggplot to create word clouds which represented the frequency of class descriptors. The word clouds display the descriptive words submitted by our classmates in sizes proportional to the frequency the words were used. The ggplot plot we used is called `ggwordcloud`. We updated the colors by adding an aesthetic feature where each class descriptor is represented by a different color. We also updated the word size so that the cloud was easier to read. 
+After this, we wanted to **visualize** the frequency of words for each class. We used ggplot to create word clouds which represented the frequency of class descriptors. The word clouds display the descriptive words submitted by our classmates in sizes proportional to the frequency the words were used. The ggplot plot we used is called `ggwordcloud`. We updated the colors by adding an aesthetic feature where each class descriptor is represented by a different color. We also updated the word size so that the cloud was easier to read. 
+
 Since we used ggplot quite a bit in EDS 221, we opted for this method for generating word clouds over another package called `wordcloud,` which is specifically for word clouds. We found that we wanted to showcase our visualization skills by stacking visualizations and adding titles and colors, and it was easier to do this in a ggplot version of word clouds, since we had so much practice with other plots in ggplot.
 
+Here is where we tried the `wordcloud` package. It made the correct visualizations, but we found it more difficult to make them as nice as some of the ggplots we made in class. It was a relief to learn that there is a word cloud feature in ggplot!
 ```{r, include = FALSE}
 # make the clouds as separate graphs
 
@@ -117,10 +128,12 @@ Since we used ggplot quite a bit in EDS 221, we opted for this method for genera
 #cloud_6 <- wordcloud(course_6_df$Var1, course_6$Freq, min.freq = 1)
 ```
 
+
+And finally, the ggplot word clouds! 
 ```{r}
-cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq)) +
+cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 13) +
   theme(plot.title = element_text(size = 17)) +
   labs(title = "Week 1 EDS 212: Essential Math in Environmental Data Science")
 
