@@ -100,7 +100,8 @@ course_6 <- data.frame(table(data_clean_6$"6"))
 course_6_df <- as.data.frame.matrix(course_6)
 ```
 
-After this, we wanted to map the frequency of words for each class. We used wordclouds, which required the package `wordcloud.` Using the function `wordcloud` we could specify the minimum and maximum word frequencies we wanted to use for each class. We specify 1 as the minimum frequency to use in each word cloud and specify no maximum frequency. The wordclouds generated show every word students used to describe the class represented by the dataframe with a size proportional to the frequency of the word. 
+After this, we wanted to map the frequency of words for each class. We used ggplot to create word clouds which represented the frequency of class descriptors. The word clouds display the descriptive words submitted by our classmates in sizes proportional to the frequency the words were used. The ggplot plot we used is called `ggwordcloud`. We updated the colors by adding an aesthetic feature where each class descriptor is represented by a different color. We also updated the word size so that the cloud was easier to read. 
+Since we used ggplot quite a bit in EDS 221, we opted for this method for generating word clouds over another package called `wordcloud,` which is specifically for word clouds. We found that we wanted to showcase our visualization skills by stacking visualizations and adding titles and colors, and it was easier to do this in a ggplot version of word clouds, since we had so much practice with other plots in ggplot.
 
 ```{r}
 # make the clouds as separate graphs
