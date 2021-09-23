@@ -80,9 +80,9 @@ course_1 <- data.frame(table(data_clean_1$"1"))
 
 course_1_df <- as.data.frame.matrix(course_1)
 
-course_2_3 <- data.frame(table(data_clean_2$"2"))
+course_2_3 <- data.frame(table(data_clean_2_3$"2"))
 
-course_2_3_df <- as.data.frame.matrix(course_2)
+course_2_3_df <- as.data.frame.matrix(course_2_3)
 
 course_4 <- data.frame(table(data_clean_4$"4"))
 
@@ -103,7 +103,7 @@ course_6_df <- as.data.frame.matrix(course_6)
 After this, we wanted to map the frequency of words for each class. We used ggplot to create word clouds which represented the frequency of class descriptors. The word clouds display the descriptive words submitted by our classmates in sizes proportional to the frequency the words were used. The ggplot plot we used is called `ggwordcloud`. We updated the colors by adding an aesthetic feature where each class descriptor is represented by a different color. We also updated the word size so that the cloud was easier to read. 
 Since we used ggplot quite a bit in EDS 221, we opted for this method for generating word clouds over another package called `wordcloud,` which is specifically for word clouds. We found that we wanted to showcase our visualization skills by stacking visualizations and adding titles and colors, and it was easier to do this in a ggplot version of word clouds, since we had so much practice with other plots in ggplot.
 
-```{r}
+```{r, include = FALSE}
 # make the clouds as separate graphs
 
 #cloud_1 <- wordcloud(course_1_df$Var1, course_1$Freq, min.freq = 1, main = "Week 1 EDS 212:Essential Math in Environmental Data Science ")
@@ -118,7 +118,7 @@ Since we used ggplot quite a bit in EDS 221, we opted for this method for genera
 ```
 
 ```{r}
-cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
+cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 15) +
   theme(plot.title = element_text(size = 17)) +
@@ -126,7 +126,7 @@ cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
 
 cloud_1
 
-cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq, color = Var1)) +
+cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 15) +
   theme(plot.title = element_text(size = 17)) +
@@ -134,7 +134,7 @@ cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq, color = Var1))
 
 cloud_2_3
 
-cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq, color = Var1)) +
+cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 15) +
   theme(plot.title = element_text(size = 17)) +
@@ -142,7 +142,7 @@ cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq, color = Var1)) +
 
 cloud_4
 
-cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq, color = Var1)) +
+cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 15) +
   theme(plot.title = element_text(size = 17)) +
@@ -150,7 +150,7 @@ cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq, color = Var1)) +
 
 cloud_5
 
-cloud_6 <- ggplot(course_6_df, aes(label = Var1, size = Freq, color = Var1)) +
+cloud_6 <- ggplot(course_6_df, aes(label = Var1, size = Freq)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 15) +
   theme(plot.title = element_text(size = 17)) +
