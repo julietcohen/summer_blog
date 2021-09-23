@@ -1,15 +1,17 @@
 ---
-title: "summer_blog_data_viz"
-author: "Juliet"
+title: "A Summer-y Summary of MEDS Quarter 1"
+author: "Juliet Cohen and Scout Leonard"
 date: "9/22/2021"
-output: html_document
+output: 
+  html_document:
+    theme: flatly
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, results=FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(dplyr)
 library(janitor)
@@ -27,17 +29,22 @@ It's been a week since we finished our six week, five class, jam-packed, *inaugu
 
 As we reflected on the first quarter of our degree, we decided it may be more interesting to show, rather than tell, some of the skills we’ve learned. We also thought it might be fun to share reflections from our whole cohort to truly represent the student experience of this fast-paced, learning-filled summer.
 
+### Survey Development
+
 As such, we developed a survey (in Google forms) to send to our classmates and gather data about their perspectives on these first six weeks. We wondered about two main questions: 1.) what did the cohort think of our classes? and 2.) what kinds of fun things has the group been up to in our delightful home of Santa Barbara?
 
 We developed a Google form for our peers to give feedback about these wondering. Our questions were developed with data tidying and visualization in mind, and when we got some unexpected answers, we developed perspective about how our survey could have been better to help us with a bit less wrangling. MEDS students, however, do not shy away from problematic data, so we persisted with the problems that arose :)
 
+### Data Visualizations
+
 The following is a description of how we visualizes the most interesting survey data submitted by our peers, including neat graphics describing our MEDS summer, from tidying data to surfing after class. We hope you find it insightful, but also fun :) 
 
+#### Our Data
 First, we read the data from our Google form survey, which we were able to download as a .csv file, into the R project we made for this blog project. 
 ```{r}
 data <- read_csv(here("data", "MEDS Summer Reflection Survey (Responses) - Responses Clean.csv"))
 ```
-
+#### Data Tidying
 Next, we renamed the columns. Google forms does this frustrating, but understandable thing where the names of the columns of data are the questions we asked participants. This makes for super long names that are not fun to write code with. We instead named the columns of interest with the corresponding order of our coursework, i.e. column 1 is our first course, EDS 212. 
 
 ```{r}
@@ -50,6 +57,7 @@ data_clean <- data %>%
   rename("6" =  "Write 3 words to describe or represent week 1 (EDS216 w/ Scott) here:")
 ```
 
+#### Data wrangling
 The Google form format included five questions (one for each summer course) where students wrote in three words to describe how they felt about the course. In the .csv of the survey data, the three words submitted by a participant were grouped together in one cell per course. 
 
 To visualize how often certain descriptors for each summer course appear, we first needed to separate the three terms submitted for each course into separate observations. We executed this using the `separate_rows()` function. This expanded the terms into three separate observations per student in each class column. 
@@ -109,11 +117,13 @@ course_6 <- data.frame(table(data_clean_6$"6"))
 course_6_df <- as.data.frame.matrix(course_6)
 ```
 
+
+#### Data Visualizing
 After this, we wanted to **visualize** the frequency of words for each class. We used ggplot to create word clouds which represented the frequency of class descriptors. The word clouds display the descriptive words submitted by our classmates in sizes proportional to the frequency the words were used. The ggplot plot we used is called `ggwordcloud`. We updated the colors by adding an aesthetic feature where each class descriptor is represented by a different color. We also updated the word size so that the cloud was easier to read. 
 
 Since we used ggplot quite a bit in EDS 221, we opted for this method for generating word clouds over another package called `wordcloud,` which is specifically for word clouds. We found that we wanted to showcase our visualization skills by stacking visualizations and adding titles and colors, and it was easier to do this in a ggplot version of word clouds, since we had so much practice with other plots in ggplot.
 
-Here is where we tried the `wordcloud` package. It made the correct visualizations, but we found it more difficult to make them as nice as some of the ggplots we made in class. It was a relief to learn that there is a word cloud feature in ggplot!
+The code chunk below is where we tried the `wordcloud` package. It made the correct visualizations, but we found it more difficult to make them as nice as some of the ggplots we made in class. It was a relief to learn that there is a word cloud feature in ggplot!
 ```{r, include = FALSE}
 # make the clouds as separate graphs
 
@@ -130,7 +140,7 @@ Here is where we tried the `wordcloud` package. It made the correct visualizatio
 
 
 And finally, the ggplot word clouds! 
-```{r}
+```{r, warning=FALSE}
 cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
   scale_size_area(max_size = 13) +
@@ -139,33 +149,33 @@ cloud_1 <- ggplot(course_1_df, aes(label = Var1, size = Freq, color = Var1)) +
 
 cloud_1
 
-cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq)) +
+cloud_2_3 <- ggplot(course_2_3_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 10) +
   theme(plot.title = element_text(size = 17)) +
   labs(title = "Weeks 2 & 3 EDS 221: Scientific Programming Essentials")
 
 cloud_2_3
 
-cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq)) +
+cloud_4 <- ggplot(course_4_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 13) +
   theme(plot.title = element_text(size = 17)) +
   labs(title = "Week 4 EDS 214: Analytical Workflows and Scientific Reproducibility")
 
 cloud_4
 
-cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq)) +
+cloud_5 <- ggplot(course_5_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 13) +
   theme(plot.title = element_text(size = 17)) +
   labs(title = "Week 5 EDS 215: Introduction to Data Storage and Management")
 
 cloud_5
 
-cloud_6 <- ggplot(course_6_df, aes(label = Var1, size = Freq)) +
+cloud_6 <- ggplot(course_6_df, aes(label = Var1, size = Freq, color = Var1)) +
   geom_text_wordcloud() +
-  scale_size_area(max_size = 15) +
+  scale_size_area(max_size = 13) +
   theme(plot.title = element_text(size = 17)) +
   labs(title = "Week 6 EDS 216: Meta-Analysis and Systematic Reviews")
 
